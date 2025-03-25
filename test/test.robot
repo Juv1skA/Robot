@@ -26,11 +26,13 @@ ${DB_PASSWORD}    test
 
 *** Test Cases ***
 Login Test
+    [Tags]    login
     [Documentation]    This test checks the login functionality of the example website.
     Login To Website
     Capture Page Screenshot    results/login_test_screenshot.png
 
 Select Radio Button Test
+    [Tags]    button
     [Documentation]    This test checks selecting a radio button.
     Go To    ${URL}/radio-buttons
     Select Radio Button    color    red
@@ -40,6 +42,7 @@ Select Radio Button Test
     Capture Page Screenshot    results/select_radio_button_test.png
 
 Dropdown Selection Test
+    [Tags]    menu
     [Documentation]    This test selects an option from a dropdown.
     Go To    ${URL}/dropdown
     Select From List By Value    id=dropdown    1
@@ -47,6 +50,7 @@ Dropdown Selection Test
     Capture Page Screenshot    results/dropdown_selection_test.png
 
 Contact Submission Test
+    [Tags]    form
     [Documentation]    This test fills out a contact page 4 times and saves the results to a CSV file.
     Create File    ${CSV_FILE}    Name;Email;Message\n
     Connect To Database    pymysql    ${DB_NAME}    ${DB_USER}    ${DB_PASSWORD}    ${DB_HOST}    ${DB_PORT}
