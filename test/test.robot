@@ -17,11 +17,11 @@ ${PASSWORD}    SuperSecretPassword!
 &{FORM_DATA_3}    name=Alice Brown    email=alice.brown@example.com    message=Greetings from Alice.
 &{FORM_DATA_4}    name=Bob White    email=bob.white@example.com    message=Message from Bob.
 ${CSV_FILE}    results/form_submission_results.csv
-${DB_HOST}    localhost
+${DB_HOST}    karppi.dy.fi
 ${DB_PORT}    3306
-${DB_NAME}    test_database
-${DB_USER}    root
-${DB_PASSWORD}    password
+${DB_NAME}    robot
+${DB_USER}    test
+${DB_PASSWORD}    test
 
 
 *** Test Cases ***
@@ -76,4 +76,4 @@ Fill Contact Form
 
 Insert Data Into Database
     [Arguments]    ${name}    ${email}    ${message}
-    Execute SQL String    INSERT INTO contact_submissions (name, email, message) VALUES ('${name}', '${email}', '${message}')
+    Execute SQL String    INSERT INTO data (name, email, message) VALUES ('${name}', '${email}', '${message}')
