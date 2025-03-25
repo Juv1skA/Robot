@@ -40,9 +40,9 @@ Dropdown Selection Test
     Select From List By Value    id=country    FI
     Capture Page Screenshot    results/dropdown_selection_test.png
 
-Form Submission Test
-    [Documentation]    This test fills out a form 4 times and saves the results to a CSV file.
-    Create File    ${CSV_FILE}    Name,Email,Message,Status
+Contact Submission Test
+    [Documentation]    This test fills out a contact page 4 times and saves the results to a CSV file.
+    Create File    ${CSV_FILE}    Name,Email,Message
     Go To    ${URL}/contact
     FOR    ${data}    IN    @{FORM_DATA}
         Fill Contact Form    ${data["name"]}    ${data["email"]}    ${data["message"]}
@@ -61,5 +61,5 @@ Fill Contact Form
     Input Text    //label[contains(text(),'Name')]/following-sibling::input    ${name}
     Input Text    //label[contains(text(),'Email')]/following-sibling::input    ${email}
     Input Text    //label[contains(text(),'You message')]/following-sibling::textarea    ${message}
-    Append To File    ${CSV_FILE}    ${name},${email},${message},Success\n
+    Append To File    ${CSV_FILE}    ${name},${email},${message}\n
     Sleep    1s
