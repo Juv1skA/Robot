@@ -1,6 +1,7 @@
 *** Settings ***
 Library    SeleniumLibrary
 Library    OperatingSystem
+Library    DatabaseLibrary
 Resource    ../resources/keywords.robot
 Suite Setup    Open Browser To Example Site
 Suite Teardown    Close Browser
@@ -16,6 +17,11 @@ ${PASSWORD}    SuperSecretPassword!
 &{FORM_DATA_3}    name=Alice Brown    email=alice.brown@example.com    message=Greetings from Alice.
 &{FORM_DATA_4}    name=Bob White    email=bob.white@example.com    message=Message from Bob.
 ${CSV_FILE}    results/form_submission_results.csv
+${DB_HOST}    localhost
+${DB_PORT}    3306
+${DB_NAME}    test_database
+${DB_USER}    root
+${DB_PASSWORD}    password
 
 
 *** Test Cases ***
@@ -43,10 +49,13 @@ Dropdown Selection Test
 Contact Submission Test
     [Documentation]    This test fills out a contact page 4 times and saves the results to a CSV file.
     Create File    ${CSV_FILE}    Name,Email,Message
+    Connect To Database    pymysql    ${DB_NAME}    ${DB_USER}    ${DB_PASSWORD}    ${DB_HOST}    ${DB_PORT}
     Go To    ${URL}/contact
     FOR    ${data}    IN    @{FORM_DATA}
         Fill Contact Form    ${data["name"]}    ${data["email"]}    ${data["message"]}
+        Insert Data Into Database    ${data["name"]}    ${data["email"]}    ${data["message"]}
     END
+    Disconnect From Database
 
 *** Keywords ***
 Open Browser To Example Site
@@ -63,3 +72,8 @@ Fill Contact Form
     Input Text    //label[contains(text(),'You message')]/following-sibling::textarea    ${message}
     Append To File    ${CSV_FILE}    ${name},${email},${message}\n
     Sleep    1s
+
+
+Insert Data Into Database
+    [Arguments]    ${name}    ${email}    ${message}
+    Execute SQL String    INSERT INTO contact_submissions (name, email, message) VALUES ('${name}', '${email}', '${message}')
