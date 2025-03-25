@@ -19,7 +19,7 @@ ${PASSWORD}    SuperSecretPassword!
 ${CSV_FILE}    results/form_submission_results.csv
 ${DB_HOST}    karppi.dy.fi
 ${DB_PORT}    3306
-${DB_NAME}    robot
+${DB_NAME}    test_robot
 ${DB_USER}    test
 ${DB_PASSWORD}    test
 
