@@ -1,0 +1,18 @@
+Download this repo
+
+Create virtual Environment
+    python -m venv robot_env
+
+Activate robot Environment:
+    robot_env\Scripts\activate
+
+Install everything using
+    pip install robotframework selenium robotframework-seleniumlibrary
+
+
+Make sure your terminal is located at: 
+    .\Robot
+
+
+Run command
+    robot --outputdir ./results ./test/test.robot
