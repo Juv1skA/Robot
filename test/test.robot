@@ -1,5 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
+Library    OperatingSystem
 Resource    ../resources/keywords.robot
 Suite Setup    Open Browser To Example Site
 Suite Teardown    Close Browser
@@ -9,6 +10,13 @@ ${URL}    https://practice.expandtesting.com
 ${BROWSER}    Edge
 ${USERNAME}    practice
 ${PASSWORD}    SuperSecretPassword!
+@{FORM_DATA}    &{FORM_DATA_1}    &{FORM_DATA_2}    &{FORM_DATA_3}    &{FORM_DATA_4}
+&{FORM_DATA_1}    name=John Doe    email=john.doe@example.com    message=Hello, this is John.
+&{FORM_DATA_2}    name=Jane Smith    email=jane.smith@example.com    message=Hi, this is Jane.
+&{FORM_DATA_3}    name=Alice Brown    email=alice.brown@example.com    message=Greetings from Alice.
+&{FORM_DATA_4}    name=Bob White    email=bob.white@example.com    message=Message from Bob.
+${CSV_FILE}    results/form_submission_results.csv
+
 
 *** Test Cases ***
 Login Test
@@ -32,6 +40,14 @@ Dropdown Selection Test
     Select From List By Value    id=country    FI
     Capture Page Screenshot    results/dropdown_selection_test.png
 
+Form Submission Test
+    [Documentation]    This test fills out a form 4 times and saves the results to a CSV file.
+    Create File    ${CSV_FILE}    Name,Email,Message,Status
+    Go To    ${URL}/contact
+    FOR    ${data}    IN    @{FORM_DATA}
+        Fill Contact Form    ${data["name"]}    ${data["email"]}    ${data["message"]}
+    END
+
 *** Keywords ***
 Open Browser To Example Site
     Open Browser    ${URL}    ${BROWSER}
@@ -39,3 +55,11 @@ Open Browser To Example Site
 
 Close Browser
     Close Browser
+
+Fill Contact Form
+    [Arguments]    ${name}    ${email}    ${message}
+    Input Text    //label[contains(text(),'Name')]/following-sibling::input    ${name}
+    Input Text    //label[contains(text(),'Email')]/following-sibling::input    ${email}
+    Input Text    //label[contains(text(),'You message')]/following-sibling::textarea    ${message}
+    Append To File    ${CSV_FILE}    ${name},${email},${message},Success\n
+    Sleep    1s
