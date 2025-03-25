@@ -48,7 +48,7 @@ Dropdown Selection Test
 
 Contact Submission Test
     [Documentation]    This test fills out a contact page 4 times and saves the results to a CSV file.
-    Create File    ${CSV_FILE}    Name,Email,Message
+    Create File    ${CSV_FILE}    Name;Email;Message\n
     Connect To Database    pymysql    ${DB_NAME}    ${DB_USER}    ${DB_PASSWORD}    ${DB_HOST}    ${DB_PORT}
     Go To    ${URL}/contact
     FOR    ${data}    IN    @{FORM_DATA}
@@ -70,7 +70,7 @@ Fill Contact Form
     Input Text    //label[contains(text(),'Name')]/following-sibling::input    ${name}
     Input Text    //label[contains(text(),'Email')]/following-sibling::input    ${email}
     Input Text    //label[contains(text(),'You message')]/following-sibling::textarea    ${message}
-    Append To File    ${CSV_FILE}    ${name},${email},${message}\n
+    Append To File    ${CSV_FILE}    ${name};${email};${message}\n
     Sleep    1s
 
 
